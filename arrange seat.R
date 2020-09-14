@@ -92,7 +92,7 @@ code <- function(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace
 
 #### Result
 ## write .ctx (or .tex) file
-code(data1, "SS305", method = 1, date = "09/16") %>% write(file = paste0(path,filename))
+code(data1, "SS305", method = 1) %>% write(file = paste0(path,filename))
 
 ## encoding (big5 to utf8)
 setwd(path)
