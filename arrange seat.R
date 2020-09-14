@@ -56,7 +56,7 @@ seat <- function(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE){
 }
   
 ## total code
-code <- function(list, class, method, date = NULL, separate = FALSE, aisleSpace = "1cm", seatSpace = TRUE){
+code <- function(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace = TRUE){
   if(!is.null(date)) date <- paste0(" (", date, ")")
   paste0("\\documentclass[12pt]{article}\n",
          "\\renewcommand{\\baselinestretch}{2.25}\n",
