@@ -12,7 +12,7 @@
    * data: 學生修課名單 (第一行為系所名稱，第二行為姓名)
    
 ## 函數介紹
-   * seat(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE): 
+   * seat(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE): 生成座位表核心的表格部分的 tex 程式碼
    
    > list: 修課學生名單 (同上階段)
    
@@ -26,3 +26,7 @@
    > aisleSpace: 走道寬度 (default: 1cm)
    
    > seatSpace: 座位間是否留有空隙 (default: 是)
+
+   * code(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace = TRUE): 生成整份座位表 tex 程式碼
+   
+   > date: 日期 (default: NULL)
