@@ -8,7 +8,7 @@ path <- "C:/Users/Username/Desktop/"
 filename <- paste0("Seat.ctx")
 
 ## deal with student list 
-data <- read_xlsx("D:/1091_統計學暨實習_修課學生名單_選課結果202009082144.xlsx")[-c(1:3),c(3,6)]
+data <- read_xlsx("C:/Users/Username/Desktop/1091_統計學暨實習_修課學生名單_選課結果202009082144.xlsx")[-c(1:3),c(3,6)]
 colnames(data) <- c("department", "name")
 
 #### Generate code
@@ -92,7 +92,7 @@ code <- function(list, class, method, date = NULL, separate = FALSE, ailseSpace 
 
 #### Result
 ## write .ctx (or .tex) file
-code(data1, "SS305", method = 1, date = "09/16", ailseSpace = "2cm") %>% write(file = paste0(path,filename))
+code(data1, "SS305", method = 1, date = "09/16") %>% write(file = paste0(path,filename))
 
 ## encoding (big5 to utf8)
 setwd(path)
