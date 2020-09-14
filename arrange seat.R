@@ -5,7 +5,7 @@ library(readxl)
 ## path to get tex (or ctx) file
 class <- "SS301"
 path <- "C:/Users/Username/Desktop/"
-filename <- paste0("Seat.ctx")
+filename <- paste0("Seat(", class, ").ctx")
 
 ## deal with student list 
 data <- read_xlsx("C:/Users/Username/Desktop/1091_統計學暨實習_修課學生名單_選課結果202009082144.xlsx")[-c(1:3),c(3,6)]
