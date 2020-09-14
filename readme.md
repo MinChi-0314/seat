@@ -23,6 +23,7 @@
 
    _code(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace = TRUE): 生成整份座位表 tex 程式碼_
    * date: 日期 (default: NULL)
+   * 其餘參數同 _seat函數_
 
 ## 操作流程
    * 設定基本參數 (匯入修課名單，設定路徑，檔名並選擇教室)
