@@ -15,4 +15,6 @@
    * seat(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE)中的變數 
    > 1. list: 修課學生名單 (同上階段)
    > 2. class: 安排座位表的教室 (同上階段)
-   > 3. method: 安排座位方式, 其中 1 為隨機亂排, 2 為梅花座(同系不相鄰)(為寫入)
+   > 3. method: 安排座位方式, 其中 
+   >>> 1 為隨機亂排
+   >>> 2 為梅花座(同系不相鄰)(為寫入)
