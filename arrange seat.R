@@ -19,7 +19,7 @@ classData <- GET("https://raw.githubusercontent.com/MinChi-0314/seat/master/NTU.
   unlist %>% .[-c(1,9)]
 
 ## seat code
-seat <- function(list, class, method = 1, ailseSpace = "1cm", seatSpace = TRUE){
+seat <- function(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE){
   if(method==1){
     data <- sample(1:nrow(list), nrow(list)) %>% list[.,2] %>% unlist
   } else if(method==2){
@@ -43,7 +43,7 @@ seat <- function(list, class, method = 1, ailseSpace = "1cm", seatSpace = TRUE){
       code <- paste0(code," & ")
       data <- data[-1]
     } else if(substring(tmp, 1, 1)=="A"){
-      code <- paste0(code," & ", "\\hspace{", ailseSpace, "}")
+      code <- paste0(code," & ", "\\hspace{", aisleSpace, "}")
     }else if(substring(tmp, 1, 1)=="C"){
       row <- row + 1
       code <- paste0(code," \\\\\n", row)
@@ -56,7 +56,7 @@ seat <- function(list, class, method = 1, ailseSpace = "1cm", seatSpace = TRUE){
 }
   
 ## total code
-code <- function(list, class, method, date = NULL, separate = FALSE, ailseSpace = "1cm", seatSpace = TRUE){
+code <- function(list, class, method, date = NULL, separate = FALSE, aisleSpace = "1cm", seatSpace = TRUE){
   if(!is.null(date)) date <- paste0(" (", date, ")")
   paste0("\\documentclass[12pt]{article}\n",
          "\\renewcommand{\\baselinestretch}{2.25}\n",
@@ -83,7 +83,7 @@ code <- function(list, class, method, date = NULL, separate = FALSE, ailseSpace 
          "\\hfill Class: ", class, date, "\n",
          "\\end{center}\n",
          "\\begin{align*}\n",
-         seat(list, class, method, ailseSpace, seatSpace),"\n",
+         seat(list, class, method, aisleSpace, seatSpace),"\n",
          "\\end{array}\n",
          "\\end{align*}\n\n",
          "\\end{landscape}\n",
