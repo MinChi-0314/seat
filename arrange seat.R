@@ -92,12 +92,12 @@ code <- function(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace
 
 #### Result
 ## write .ctx (or .tex) file
-code(data, class, method = 1) %>% write(file = paste0(path,filename))
+code(data, class, method = 1) %>% write(file = paste0(path, filename))
 
 ## encoding (big5 to utf8)
 setwd(path)
-recode <- paste0("bg2uc ",filename)
+recode <- paste0("bg2uc ", filename)
 shell(recode)
 
 ## delete -bg file
-unlink(paste0(path,filename,"-bg"),recursive=TRUE)
+unlink(paste0(path, filename, "-bg"), recursive=TRUE)
