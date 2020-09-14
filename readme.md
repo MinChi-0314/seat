@@ -30,3 +30,6 @@
    * code(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace = TRUE): 生成整份座位表 tex 程式碼
    
    > date: 日期 (default: NULL)
+
+## 操作流程
+   * 
