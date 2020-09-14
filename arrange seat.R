@@ -54,7 +54,7 @@ code <- function(data, class, separate = TRUE, ailseSpace = "", seatSpace = TRUE
 }
 
 #### Result
-write(file = paste0(path,filename))
+code() %>% write(file = paste0(path,filename))
 
 setwd(path)
 recode <- paste0("bg2uc ",filename)
