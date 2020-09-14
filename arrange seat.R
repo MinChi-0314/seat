@@ -21,7 +21,7 @@ classData <- GET("https://raw.githubusercontent.com/MinChi-0314/seat/master/NTU.
 ## seat code
 
 ## total code
-code <- function(data, class, separate = TRUE, ailseSpace = "", seatSpace = TRUE, date = NULL){
+code <- function(data, class, date, separate = TRUE, ailseSpace = "", seatSpace = TRUE){
   date <- ifelse(nchar(date)==0, date <- "{\\color{white}0}", date <- paste0("Date: ", date))
   paste0("\\documentclass[12pt]{article}\n",
          "\\renewcommand{\\baselinestretch}{2.25}\n",
