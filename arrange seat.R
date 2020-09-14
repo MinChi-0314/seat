@@ -3,9 +3,9 @@ library(httr)
 library(readxl)
 #### Setting
 ## path to get tex (or ctx) file
-path <- "D:/"
-date <- ""
-filname <- paste0(date, "座位表.ctx")
+class <- "SS301"
+path <- "C:/Users/Username/Desktop/"
+filename <- paste0("Seat.ctx")
 
 ## deal with student list 
 data <- read_xlsx("D:/1091_統計學暨實習_修課學生名單_選課結果202009082144.xlsx")[-c(1:3),c(3,6)]
@@ -19,10 +19,45 @@ classData <- GET("https://raw.githubusercontent.com/MinChi-0314/seat/master/NTU.
   unlist %>% .[-c(1,9)]
 
 ## seat code
-
+seat <- function(list, class, method = 1, ailseSpace = "1cm", seatSpace = TRUE){
+  if(method==1){
+    data <- sample(1:nrow(list), nrow(list)) %>% list[.,2] %>% unlist
+  } else if(method==2){
+    
+  }
+  
+  tmp <- classData %>% grep(pattern = class,value=T) %>% 
+    str_extract(regex("(?<=,).*"))
+  
+  columns <- tmp %>% str_split("C") %>% unlist %>% .[1] %>% nchar +1
+  arraySite <- str_c(rep("c", columns), collapse = "")
+  
+  code <- paste0("\\begin{array}{", arraySite, "}\n1")
+  row <- 1
+  
+  for(i in 1:nchar(tmp)){
+    if(substring(tmp, 1, 1)=="S"){
+      code <- paste0(code, " & \\fbox{", data[1], "}")
+      data <- data[-1]
+    } else if(substring(tmp, 1, 1)=="P"){
+      code <- paste0(code," & ")
+      data <- data[-1]
+    } else if(substring(tmp, 1, 1)=="A"){
+      code <- paste0(code," & ", "\\hspace{", ailseSpace, "}")
+    }else if(substring(tmp, 1, 1)=="C"){
+      row <- row + 1
+      code <- paste0(code," \\\\\n", row)
+    }
+    
+    tmp <- substring(tmp, 2)
+  }
+  code <- code %>% gsub(pattern = "NA", replacement = "{\\\\color{white} 王小明}")
+  return(code)
+}
+  
 ## total code
-code <- function(data, class, date, separate = TRUE, ailseSpace = "", seatSpace = TRUE){
-  date <- ifelse(nchar(date)==0, date <- "{\\color{white}0}", date <- paste0("Date: ", date))
+code <- function(list, class, method, date = NULL, separate = FALSE, ailseSpace = "1cm", seatSpace = TRUE){
+  if(!is.null(date)) date <- paste0(" (", date, ")")
   paste0("\\documentclass[12pt]{article}\n",
          "\\renewcommand{\\baselinestretch}{2.25}\n",
          "\\topmargin=0pt\n",
@@ -35,7 +70,8 @@ code <- function(data, class, date, separate = TRUE, ailseSpace = "", seatSpace 
          "\\marginparsep=0cm\n\n",
          "\\usepackage[T1]{fontenc}\n",
          "\\usepackage[osf]{MinionPro}\n",
-         "\\usepackage{MyriadPro}\n\n",
+         "\\usepackage{MyriadPro}\n",
+         "\\def\\tb#1#2{\\mathop{#1\\vphantom{\\sum}}\\limits_{\\displaystyle #2}}\n\n",
          "\\usepackage{color}\n",
          "\\fboxsep=5pt\n\n",
          "\\usepackage{pdflscape}\n",
@@ -44,26 +80,24 @@ code <- function(data, class, date, separate = TRUE, ailseSpace = "", seatSpace 
          "\\begin{landscape}\n",
          "\\begin{center}\n",
          "\\fbox{\\hspace{5cm}黑板\\hspace{5cm}}\\\\[-1cm]\n",
-         "\\hfill ", date,"\\vspace{-1cm}\n",
+         "\\hfill Class: ", class, date, "\n",
          "\\end{center}\n",
          "\\begin{align*}\n",
-         
+         seat(list, class, method, ailseSpace, seatSpace),"\n",
+         "\\end{array}\n",
          "\\end{align*}\n\n",
          "\\end{landscape}\n",
-         "\\end{document}") %>% cat
+         "\\end{document}") %>% return 
 }
 
 #### Result
-code() %>% write(file = paste0(path,filename))
+## write .ctx (or .tex) file
+code(data1, "SS305", method = 1, date = "09/16", ailseSpace = "2cm") %>% write(file = paste0(path,filename))
 
+## encoding (big5 to utf8)
 setwd(path)
 recode <- paste0("bg2uc ",filename)
 shell(recode)
 
+## delete -bg file
 unlink(paste0(path,filename,"-bg"),recursive=TRUE)
-
-
-
-
-tmp <- classData %>% grep(pattern = "SS301",value=T) %>% str_extract(regex("(?<=,).*"))
-tmp %>% str_split("C") %>% unlist
