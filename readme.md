@@ -12,9 +12,11 @@
    * data: 學生修課名單 (第一行為系所名稱，第二行為姓名)
    
 ## 函數介紹
-   * seat(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE)中的變數 
-   > 1. list: 修課學生名單 (同上階段)
-   > 2. class: 安排座位表的教室 (同上階段)
-   > 3. method: 安排座位方式, 其中 
-   >> 1 為隨機亂排
-   >> 2 為梅花座(同系不相鄰)(為寫入)
+   * seat(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE):  
+   > list: 修課學生名單 (同上階段)
+   > class: 安排座位表的教室 (同上階段)
+   > method: 安排座位方式, 其中 
+   >> 1: 隨機亂排;
+   >> 2: 梅花座(同系不相鄰)(為寫入)
+   > aisleSpace: 走道寬度 (default: 1cm)
+   > seatSpace: 座位間是否留有空隙 (default: 是)
