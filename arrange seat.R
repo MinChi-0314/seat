@@ -71,7 +71,6 @@ code <- function(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace
          "\\usepackage[T1]{fontenc}\n",
          "\\usepackage[osf]{MinionPro}\n",
          "\\usepackage{MyriadPro}\n",
-         "\\def\\tb#1#2{\\mathop{#1\\vphantom{\\sum}}\\limits_{\\displaystyle #2}}\n\n",
          "\\usepackage{color}\n",
          "\\fboxsep=5pt\n\n",
          "\\usepackage{pdflscape}\n",
