@@ -3,13 +3,13 @@ library(httr)
 library(readxl)
 #### Setting
 ## path to get tex (or ctx) file
-class <- "SS301"
+class <- "SS102"
 path <- "C:/Users/Username/Desktop/"
 filename <- paste0("Seat(", class, ").ctx")
 
 ## deal with student list 
-data <- read_xlsx("C:/Users/Username/Desktop/1091_統計學暨實習_修課學生名單_選課結果202009082144.xlsx")[-c(1:3),c(3,6)]
-colnames(data) <- c("department", "name")
+data <- read_xlsx("C:/Users/Username/Desktop/2020Fall_Statistics_成績登記_20201013.xlsx")[-c(144,145),c(1,4,5)]
+colnames(data) <- c("department", "name", "class")
 
 #### Generate code
 ## import class size
@@ -19,44 +19,84 @@ classData <- GET("https://raw.githubusercontent.com/MinChi-0314/seat/master/NTU.
   unlist %>% .[-c(1,9)]
 
 ## seat code
-seat <- function(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE){
+seat <- function(list, class, method, drop, aisleSpace, seatSpace){
+  # method of arrangement
   if(method==1){
     data <- sample(1:nrow(list), nrow(list)) %>% list[.,2] %>% unlist
   } else if(method==2){
     
   }
   
+  # adjust for drop one
+  if(drop){
+    data0 <- data
+    data <- c()
+    for(i in 1:length(data0)){
+      data[2*i-1] <- data0[i]
+      data[2*i] <- "{\\color{white}王小明}"
+    }
+  }
+  
+  # Get the size of class
   tmp <- classData %>% grep(pattern = class,value=T) %>% 
     str_extract(regex("(?<=,).*"))
   
-  columns <- tmp %>% str_split("C") %>% unlist %>% .[1] %>% nchar +1
+  # Control number of columns by seatSpace
+  if(seatSpace){
+    columns <- tmp %>% str_split("C") %>% unlist %>% .[1] %>% nchar +1
+  } else {
+    columns <- tmp %>% str_split("C") %>% unlist %>% .[1] %>% str_split("A") %>% unlist %>% length +1
+  }
   arraySite <- str_c(rep("c", columns), collapse = "")
   
-  code <- paste0("\\begin{array}{", arraySite, "}\n1")
+  # Start to write the array
   row <- 1
   
-  for(i in 1:nchar(tmp)){
-    if(substring(tmp, 1, 1)=="S"){
-      code <- paste0(code, " & \\fbox{", data[1], "}")
-      data <- data[-1]
-    } else if(substring(tmp, 1, 1)=="P"){
-      code <- paste0(code," & ")
-      data <- data[-1]
-    } else if(substring(tmp, 1, 1)=="A"){
-      code <- paste0(code," & ", "\\hspace{", aisleSpace, "}")
-    }else if(substring(tmp, 1, 1)=="C"){
-      row <- row + 1
-      code <- paste0(code," \\\\\n", row)
-    }
+  if(seatSpace){
+    code <- paste0("\\begin{array}{", arraySite, "}\n1")
     
-    tmp <- substring(tmp, 2)
+    for(i in 1:nchar(tmp)){
+      if(substring(tmp, 1, 1)=="S"){
+        code <- paste0(code, " & \\fbox{", data[1], "}")
+        data <- data[-1]
+      } else if(substring(tmp, 1, 1)=="P"){
+        code <- paste0(code," & ")
+        data <- data[-1]
+      } else if(substring(tmp, 1, 1)=="A"){
+        code <- paste0(code," & ", "\\hspace{", aisleSpace, "}")
+      }else if(substring(tmp, 1, 1)=="C"){
+        row <- row + 1
+        code <- paste0(code," \\\\\n", row)
+      }
+      
+      tmp <- substring(tmp, 2)
+    }
+  } else {
+    code <- paste0("\\begin{array}{", arraySite, "}\n1&")
+    
+    for(i in 1:nchar(tmp)){
+      if(substring(tmp, 1, 1)=="S"){
+        code <- paste0(code, "\\fbox{", data[1], "}")
+        data <- data[-1]
+      } else if(substring(tmp, 1, 1)=="P"){
+        code <- paste0(code,"\\fbox{}")
+        data <- data[-1]
+      } else if(substring(tmp, 1, 1)=="A"){
+        code <- paste0(code," & ", "\\hspace{", aisleSpace, "}")
+      }else if(substring(tmp, 1, 1)=="C"){
+        row <- row + 1
+        code <- paste0(code," \\\\\n", row, "&")
+      }
+      
+      tmp <- substring(tmp, 2)
+    }
   }
   code <- code %>% gsub(pattern = "NA", replacement = "{\\\\color{white} 王小明}")
   return(code)
 }
-  
+
 ## total code
-code <- function(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace = TRUE){
+code <- function(list, class, method, drop = TRUE, date = NULL, aisleSpace = "1cm", seatSpace = FALSE){
   if(!is.null(date)) date <- paste0(" (", date, ")")
   paste0("\\documentclass[12pt]{article}\n",
          "\\renewcommand{\\baselinestretch}{2.25}\n",
@@ -82,7 +122,7 @@ code <- function(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace
          "\\hfill Class: ", class, date, "\n",
          "\\end{center}\n",
          "\\begin{align*}\n",
-         seat(list, class, method, aisleSpace, seatSpace),"\n",
+         seat(list, class, method, drop, aisleSpace, seatSpace),"\n",
          "\\end{array}\n",
          "\\end{align*}\n\n",
          "\\end{landscape}\n",
