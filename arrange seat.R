@@ -60,7 +60,7 @@ seat <- function(list, class, method, drop, aisleSpace, seatSpace){
         code <- paste0(code, " & \\fbox{", data[1], "}")
         data <- data[-1]
       } else if(substring(tmp, 1, 1)=="P"){
-        code <- paste0(code," & ")
+        code <- paste0(code," & \\fbox{{\\color{white}王}X{\\color{white}明}}")
         data <- data[-1]
       } else if(substring(tmp, 1, 1)=="A"){
         code <- paste0(code," & ", "\\hspace{", aisleSpace, "}")
@@ -79,7 +79,7 @@ seat <- function(list, class, method, drop, aisleSpace, seatSpace){
         code <- paste0(code, "\\fbox{", data[1], "}")
         data <- data[-1]
       } else if(substring(tmp, 1, 1)=="P"){
-        code <- paste0(code,"\\fbox{}")
+        code <- paste0(code,"\\fbox{{\\color{white}王}X{\\color{white}明}}")
         data <- data[-1]
       } else if(substring(tmp, 1, 1)=="A"){
         code <- paste0(code," & ", "\\hspace{", aisleSpace, "}")
