@@ -8,8 +8,8 @@ path <- "C:/Users/Username/Desktop/"
 filename <- paste0("Seat(", class, ").ctx")
 
 ## deal with student list 
-data <- read_xlsx("C:/Users/Username/Desktop/2020Fall_Statistics_成績登記_20201013.xlsx")[-c(144,145),c(1,4,5)]
-colnames(data) <- c("department", "name", "class")
+data <- read_xlsx("C:/Users/Username/Desktop/2020Fall_Statistics_成績登記_20201013.xlsx")[-c(144,145),c(1,4)]
+colnames(data) <- c("department", "name")
 
 #### Generate code
 ## import class size
