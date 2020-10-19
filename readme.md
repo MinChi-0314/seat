@@ -12,16 +12,17 @@
    * data: 學生修課名單 (第一行為系所名稱，第二行為姓名)
    
 ## 函數介紹
-   _seat(list, class, method = 1, aisleSpace = "1cm", seatSpace = TRUE): 生成座位表核心的表格部分的 tex 程式碼_
+   _seat(list, class, method = 1, drop = TRUE, aisleSpace = "1cm", seatSpace = TRUE): 生成座位表核心的表格部分的 tex 程式碼_
    * list: 修課學生名單 (同上階段)
    * class: 安排座位表的教室 (同上階段)
    * method: 安排座位方式, 其中 
       * =1: 隨機亂排
       * =2: 梅花座(同系不相鄰)(待寫入)
+   * drop: 是否空一格再坐人(default: 是)
    * aisleSpace: 走道寬度 (default: 1cm)
    * seatSpace: 座位間是否留有空隙 (default: 是)
 
-   _code(list, class, method, date = NULL, aisleSpace = "1cm", seatSpace = TRUE): 生成整份座位表 tex 程式碼_
+   _code(list, class, method, drop = TRUE, date = NULL, aisleSpace = "1cm", seatSpace = TRUE): 生成整份座位表 tex 程式碼_
    * date: 日期 (default: NULL)
    * 其餘參數同 _seat函數_
 
