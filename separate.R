@@ -4,3 +4,7 @@ colnames(data) <- c("department", "name", "class")
 ## Seperare by ClassA,B
 classB <- data %>% filter(class=="B")
 classA <- setdiff(data, classB)
+
+## Random
+class <- sample(c(rep("SS302",24),rep("SS305",40),rep("SS306",40),rep("SS307",40)))
+data <- cbind(data, class)
